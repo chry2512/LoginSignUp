@@ -1,0 +1,174 @@
+<!--
+  @description       : Register Component Community
+  @author            : Christian Niro
+  @group             : 
+  @last modified on  : 06-26-2024
+  @last modified by  : 
+-->
+<template>
+    <template if:true={showTermsAndConditionsLoading}>
+        <lightning-spinner class="termsAndConditionsLoading" alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <template if:true={showTermsAndConditions}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container terms-and-conditions-modal">
+                <header class="slds-modal__header terms-and-conditions-header">
+                    <button class="slds-button slds-button_icon slds-button_icon-inverse terms-and-conditions-close" title="Close" onclick={closeTermsAndConditions}>
+                        <lightning-icon variant="inverse" icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate"><a href="javascript:void(0);" class="terms-and-conditions-heading">Community  Terms and Condition</a></h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium terms-and-conditions-body" id="termsAndConditionsModal">
+                    <div class="forceCommunityRichText forceCommunityRichTextInline" data-aura-class="forceCommunityRichText forceCommunityRichTextInline">
+                        <div dir="ltr" data-aura-rendered-by="37:2;a" class="uiOutputRichText" data-aura-class="uiOutputRichText">
+                            <p style="text-align: center;"><br></p>
+                            <p><span style="color: rgb(255, 255, 255); font-family: arial; font-size: 16px;">I Nostri Termini sono... </span></p>
+                            <p><br></p>
+                        </div>
+                        <div class="clear" data-aura-rendered-by="39:2;a"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <div class="main-container slds-grid slds-grid_vertical slds-gutters">
+        <div class="slds-col slds-var-p-bottom_medium">
+            <p class="text-align-center">
+                <span class="main-heading register-heading">Register Your Community Account</span>
+            </p>
+            <template if:true={errorCheck}>
+                <div class="error slds-var-p-around_x-small slds-var-p-top_small" role="alert">
+                    <span>{errorMessage}</span>
+                </div>
+            </template>
+        </div>
+
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                    <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="username" size="xx-small"></lightning-icon>
+                    <input type="text" data-id="inputFirstName" placeholder="Nome" class="slds-input input-element" name="firstName" value={userInfo.firstName} onchange={handleInputChange} required />
+                    <span class={infoTooltipDisplayData.firstName}>Inserisci il tuo Nome e Cognome.</span>
+                    <span class={requiredTooltipDisplayData.firstName}>Questo Campo è Obbligatorio.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                    <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="username" size="xx-small"></lightning-icon>
+                    <input type="text" data-id="inputLastName" placeholder="Cognome" class="slds-input input-element" name="lastName" value={userInfo.lastName} onchange={handleInputChange} required />
+                    <span class={requiredTooltipDisplayData.lastName}>Questo Campo è Obbligatorio.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col tooltipEmail">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip" onmouseover={handleEmailHover}>
+                    <lightning-icon class="input-icon" icon-name="utility:email" alternative-text="username" size="xx-small"></lightning-icon>
+                    <input type="text" data-id="inputEmail" placeholder="Email" class="slds-input input-element" name="email" value={userInfo.email} onkeyup={handleInputChange} pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" oninvalid={onEmailInvalid} oninput={onEmailInput} onclick={onEmailClick} onblur={onEmailBlur} required />
+                    <span class={infoTooltipDisplayData.email}>Inserisci il tuo indirizzo Email dove ricevere le comunicazioni importanti.</span>
+                    <span class={requiredTooltipDisplayData.email}>Questo Campo è Obbligatorio.</span>
+                    <span class={errorTooltipDisplayData.email}>{emailError}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col usernameColumn">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                    <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="username" size="xx-small"></lightning-icon>
+                    <input type="text" data-id="inputUsername" placeholder="Username" class="slds-input input-element" name="userName" value={userInfo.userName} disabled required />
+                    <span class={requiredTooltipDisplayData.username}>Questo Campo è Obbligatorio.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                    <lightning-icon class="input-icon" icon-name="utility:call" alternative-text="phone" size="xx-small"></lightning-icon>
+                    <input type="tel" data-id="inputPhoneNumber" placeholder="Cellulare" class="slds-input input-element" name="phoneNumber" value={userInfo.phoneNumber} onchange={handleInputChange} required />
+                    <span class={infoTooltipDisplayData.phoneNumber}>Inserisci il tuo numero di telefono.</span>
+                    <span class={errorTooltipDisplayData.phoneNumber}>{phoneError}</span>
+                    
+                </div>
+            </div>
+        </div> 
+        
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                    <lightning-icon class="input-icon" icon-name="utility:lock" alternative-text="username" size="xx-small"></lightning-icon>
+                    <input type="password" data-id="inputPassword" placeholder="Create Password" class="slds-input input-element" name="password" value={userInfo.password} onchange={handleInputChange} pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" required />
+                    <span class={infoTooltipDisplayData.password}>La password deve contenere almeno otto caratteri, almeno una lettera, un numero e un carattere speciale.</span>
+                    <span class={requiredTooltipDisplayData.password}>Questo Campo è Obbligatorio.</span>
+                    <span class={errorTooltipDisplayData.password}>{passwordError}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                    <lightning-icon class="input-icon" icon-name="utility:lock" alternative-text="username" size="xx-small"></lightning-icon>
+                    <input type="password" data-id="inputConfirmPassword" placeholder="Confirm Password" class="slds-input input-element" name="confirmPassword" value={userInfo.confirmPassword} onchange={handleInputChange} pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" required />
+                    <span class={requiredTooltipDisplayData.confirmPassword}>Questo Campo è Obbligatorio.</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slds-col slds-m-bottom_large">
+            <span class="bold-label">Centro Clinico</span>
+            <lightning-combobox name="clinicCenter" label="" placeholder="Seleziona Centro Clinico" value={selectedClinicCenter} options={clinicCenterOptions} onchange={handleClinicCenterChange} ></lightning-combobox>
+        </div>
+
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-checkbox">
+                        <input type="checkbox" name="dataProcessingConsent" id="dataProcessingConsent" required />
+                        <label class="slds-checkbox__label" for="dataProcessingConsent">
+                            <span class="slds-checkbox_faux"></span>
+                            <span class="slds-form-element__label">Accetto il trattamento dei miei dati personali .</span>
+                        </label>
+                    </div>
+                    <div class="slds-checkbox">
+                        <input type="checkbox" name="marketingConsent" id="marketingConsent" required />
+                        <label class="slds-checkbox__label" for="marketingConsent">
+                            <span class="slds-checkbox_faux"></span>
+                            <span class="slds-form-element__label">Accetto di ricevere comunicazioni di marketing.</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col">
+            <span class="sub-heading">Iscrivendoti accetti i nostri termini e condizioni <a class="terms-and-conditions-link" href="javascript:void(0);" onclick={handleTermsAndConditions}>terms and conditions</a></span>
+        </div>
+
+        <div class="slds-col">
+            <button type="submit" class="login-button slds-button" onclick={handleRegister}>Sign Up</button>
+        </div>
+
+        <div class="slds-col">
+            <p class="text-align-center slds-var-p-around_medium">
+                <!--cambia redirect a login custom on digital experience-->
+                <a href="/mrrob/s/login" class="sub-heading register-heading">Hai già un Account?</a>
+            </p>
+            <p class="text-align-center">
+                <span class="sub-heading register-heading">Per assistenza tenica contatta</span>
+            </p>
+            <p class="text-align-center">
+                <span class="sub-heading register-heading"><a href="mailto:mrrob@mrrob.com" >mrrob@mrrob.com</a></span>
+            </p>
+        </div>
+    </div>
+</template>
