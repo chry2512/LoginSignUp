@@ -1,22 +1,22 @@
 /* Created by Christian Niro*/
 
+/* Imposta l'immagine di sfondo per il corpo della pagina, coprendo interamente lo spazio disponibile. L'immagine è presa da una risorsa statica. */
 body {
     background-size: cover;
     background-image: url("/resource/loginBackground");
-    /*choose image from static resource*/
 }
 
+/* Centra gli elementi all'interno del contenitore, utilizzando Flexbox per un allineamento sia orizzontale che verticale. */
 .center {
-
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Stilizza il bottone di login con un colore di sfondo rosso, testo bianco, e lo rende a larghezza piena. */
 .login-button {
-
     background-color: #d12424;
-    color: rgb(255, 255, 255);
+    color: white;
     text-align: center;
     width: 100%;
     display: block;
@@ -25,118 +25,121 @@ body {
     font-family: Arial;
 }
 
+/* Definisce lo stile per l'intestazione principale con testo bianco e dimensione del font maggiore. */
 .main-heading {
-
     font-size: 20px;
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
+/* Stilizza l'intestazione secondaria con testo bianco e dimensione del font minore. */
 .sub-heading {
-
     font-size: 14px;
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
+/* Posiziona un'icona all'interno di un campo di input, utilizzando la posizione assoluta. */
 .input-icon {
-
     position: absolute;
     margin: 0.9rem 0.7rem;
 }
 
+/* Stilizza gli elementi di input con un padding specifico e dimensione del font. */
 .input-element {
-
     padding: 0.5rem 0rem 0.5rem 2rem;
     font-size: 16px;
 }
 
+/* Centra il testo all'interno di un elemento. */
 .text-align-center {
     text-align: center;
 }
 
+/* Stilizza il testo per il link "password dimenticata" con un colore specifico. */
 .forgot-password-text {
-
     color: #CCBFBF;
     font-size: 14px;
     text-align: left;
 }
 
+/* Stilizza il testo per il link di registrazione, posizionandolo a destra. */
 .register-text {
-
     color: #CCBFBF;
     font-size: 14px;
     float: right;
 }
 
+/* Stilizza i messaggi di errore con testo centrato, colore specifico e una larghezza massima. */
 .error {
-
     text-align: center;
     word-break: break-word;
     max-width: 20rem;
     color: #ff9e9e;
 }
 
+/* Definisce lo stile per l'intestazione della sezione di registrazione, con un peso del font maggiore e una larghezza massima. */
 .register-heading {
-
     max-width: 25rem;
     font-weight: 700;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 }
 
+/* Stilizza le colonne all'interno di una griglia verticale, aggiungendo padding superiore e inferiore. */
 .slds-grid_vertical .slds-col {
-
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
 }
 
+/* Stilizza il bottone per chiudere i termini e le condizioni, posizionandolo a destra e con un bordo specifico. */
 .terms-and-conditions-close {
-
     float: right;
     border: 2px solid rgba(159, 159, 159, 0.5);
 }
 
+/* Definisce lo stile per l'intestazione e il corpo dei termini e condizioni, con un colore di sfondo e di testo specifici. */
 .terms-and-conditions-header,
 .terms-and-conditions-body {
-
     background-color: #83818a;
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
+/* Rimuove il bordo inferiore dall'intestazione dei termini e condizioni. */
 .terms-and-conditions-header {
-
     border-bottom: none;
 }
 
+/* Rimuove il bordo superiore dal corpo dei termini e condizioni. */
 .terms-and-conditions-body {
-
     border-top: none;
 }
 
+/* Stilizza l'intestazione dei termini e condizioni con testo bianco e peso del font maggiore. */
 .terms-and-conditions-heading {
-
     color: white;
     font-weight: 700;
     pointer-events: none;
 }
 
+/* Cambia il colore di sfondo dei bottoni dei termini e condizioni al passaggio del mouse o al focus. */
 .terms-and-conditions-button:hover,
 .terms-and-conditions-button:focus {
-
     background-color: white;
 }
 
+/* Definisce uno stile di base per i tooltip, con posizione relativa e bordo inferiore tratteggiato. */
 .tooltip {
     position: relative;
     border-bottom: 1px dotted black;
 }
 
+/* Nasconde il testo del tooltip fino al passaggio del mouse, con transizione dell'opacità. */
 .tooltip .tooltiptext {
     visibility: hidden;
     max-width: 250px;
     width: max-content;
     background-color: #555;
-    color: #fff;
+    color: white;
     text-align: center;
     border-radius: 6px;
     padding: 5px 3px;
@@ -174,39 +177,37 @@ body {
 }
 
 .tooltipError {
-
     background-color: red !important;
     border: 1px solid white;
 }
 
+/* Modifica il colore del bordo del tooltip in caso di errore. */
 .tooltip .tooltipError::after {
-
     border-color: white transparent transparent transparent !important;
 }
 
+/* Rende il tooltip sempre visibile, ignorando l'hover. */
 .tooltipShow {
-
     display: block;
     visibility: visible !important;
     opacity: 1 !important;
 }
 
+/* Nasconde completamente il tooltip. */
 .tooltipHide {
-
     display: none;
 }
 
-
+/* Stilizza il link ai termini e condizioni con testo bianco e sottolineato. */
 .terms-and-conditions-link {
-
     color: white;
     text-decoration: underline;
     text-align: right;
 }
 
+/* Applica uno stile di etichetta in grassetto con un margine inferiore specifico. */
 .bold-label {
     font-weight: bold;
     display: block;
     margin-bottom: -5px;
-
 }

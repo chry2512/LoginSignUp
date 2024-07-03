@@ -2,7 +2,7 @@
  * @description       : registerComponent controller JS
  * @author            :  Christian Niro
  * @group             : 
- * @last modified on  : 07-01-2024
+ * @last modified on  : 07-03-2024
  * @last modified by  : 
 **/
 import { LightningElement, track } from 'lwc';
@@ -10,6 +10,8 @@ import isEmailExist from '@salesforce/apex/CommunityAuthController.isEmailExist'
 import registerUser from '@salesforce/apex/CommunityAuthController.registerUser';
 
 export default class RegisterComponent extends LightningElement {
+
+    // Traccia le informazioni inserite dall'utente nel modulo di registrazione.
     @track userInfo = {
         firstName: null,
         lastName: null,
@@ -19,7 +21,7 @@ export default class RegisterComponent extends LightningElement {
         password: null,
         confirmPassword: null,
     };
-
+  // Variabili per la gestione degli errori e dei messaggi.
     @track errorCheck;
     @track errorMessage;
     showUserName = false;
@@ -38,14 +40,16 @@ export default class RegisterComponent extends LightningElement {
         { label: 'Centro Clinico C', value: 'c' },
     ];
 
+
+     // Validazione dell'email.
     get isEmailValid() {
         return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.userInfo.email);
     }
-
+    // Validazione del numero di telefono.
     get isPhoneNumberValid() {
         return /^\+39\d{9,10}$/.test(this.userInfo.phoneNumber);
     }
-
+   // Validazione della password.
     get isPasswordValid() {
         return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(this.userInfo.password);
     }
@@ -53,7 +57,7 @@ export default class RegisterComponent extends LightningElement {
     get doPasswordsMatch() {
         return this.userInfo.password === this.userInfo.confirmPassword;
     }
-
+  // Imposta i dati iniziali per i tooltip.
     connectedCallback() {
    
         this.infoTooltipDisplayData = {
@@ -85,7 +89,7 @@ export default class RegisterComponent extends LightningElement {
             phoneNumber: tooltipHide
         };
     }
-
+ // Aggiorna la visualizzazione dei tooltip in base alla validità del campo.
     updateTooltipDisplayData(field, show) {
         const displayValue = `tooltiptext ${show ? 'tooltipShow' : 'tooltipHide'}`;
         if (field in this.requiredTooltipDisplayData) {
@@ -95,22 +99,23 @@ export default class RegisterComponent extends LightningElement {
             this.errorTooltipDisplayData[field] = displayValue;
         }
     }
-
+ // Valida un campo specifico e aggiorna i tooltip di conseguenza.
     validateField(field, value) {
         this.updateTooltipDisplayData(field, !value);
     }
-
+ // Gestisce la registrazione dell'utente.
     handleRegister(event) {
 
         event.preventDefault();
         this.errorCheck = false;
         this.errorMessage = null;
         console.log('entrato nel register');
-        
+        // Valida tutti i campi del modulo.
         Object.keys(this.userInfo).forEach(field => {
             this.validateField(field, this.userInfo[field]);
         });
 
+        // Procede con la registrazione se tutti i campi sono validi.
         if (Object.values(this.userInfo).every(value => value)) {
             this.showTermsAndConditionsLoading = true;
             if (!this.doPasswordsMatch) {
@@ -140,7 +145,7 @@ export default class RegisterComponent extends LightningElement {
                 this.showTermsAndConditionsLoading = false;
                 return;
             }
-
+            // Verifica se l'email esiste già. 
             isEmailExist({ username: this.userInfo.userName })
                 .then(result => {
                     if (result) {
@@ -159,7 +164,7 @@ export default class RegisterComponent extends LightningElement {
                 });
         }
     }
-
+    // Registra un nuovo utente.
     registerNewUser() {
         registerUser({ firstName : this.userInfo.firstName, lastName : this.userInfo.lastName, userName : this.userInfo.userName, email : this.userInfo.email, communityNickname: this.userInfo.firstName,  password : this.userInfo.password, phone: this.userInfo.phoneNumber})
             .then(result => {
@@ -176,9 +181,11 @@ export default class RegisterComponent extends LightningElement {
             });
     }
 
+    // Gestisce i cambiamenti nei campi di input.
     handleInputChange(event) {
         const { name, value } = event.target;
         this.userInfo[name] = value;
+        // Logica specifica per l'email e il numero di telefono.
         if (name === 'email') {
             this.userInfo.userName = value ? `${value}.mrrob` : '';
         }
@@ -187,15 +194,17 @@ export default class RegisterComponent extends LightningElement {
                 this.userInfo.phoneNumber = "+39" + value;
         }
     }
+    // Gestisce la selezione del centro clinico.
     handleClinicCenterChange(event) {
         this.selectedClinicCenter = event.detail.value;
     }
 
-    handleTermsAndConditions(event){
-
+    // Mostra i termini e le condizioni.
+    handleTermsAndConditions(event) {
         this.showTermsAndConditions = true;
     }
 
+    // Chiude i termini e le condizioni.
     closeTermsAndConditions() {
         this.showTermsAndConditions = false;
     }
